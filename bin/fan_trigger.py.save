@@ -1,0 +1,21 @@
+#! /usr/bin/env python
+
+import SimpleCV
+
+## take a photo
+
+
+## do  some calculations
+
+"""
+return 1 when trigger is on
+else return 0
+finally it's a matrix about trigger signal
+
+like this
+
+0 0 0     1 1 1
+0 0 0  or 1 1 1
+0 0 0	  1 1 1
+"""
+
