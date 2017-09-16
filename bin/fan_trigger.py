@@ -3,19 +3,45 @@
 from SimpleCV import Camera, Image
 import numpy as np
 import time
+import serial 
+import RPi.GPIO as GPIO
 
 # setup()
 
-## initialize image
-baseImg = Image("../images/baseImage.jpg")
+## arguments area
+
+imgCropCoorList = [(203,411),(366,408),(519,399)]
+imgCropWidth, imgCropHeight = 15,15
+
+gpioList=[36,38,40]
+
+threshold = 0.8
+
+## initialize GPIO
+
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(gpioList, GPIO.OUT, initial=GPIO.HIGH)
+#GPIO.setup(38, GPIO.OUT)
+#GPIO.setup(40, GPIO.OUT)
+
+'''
+GPIO.output(16, GPIO.HIGH)
+GPIO.output(20, GPIO.HIGH)
+GPIO.output(21, GPIO.HIGH)
+'''
+
+## initialize serial
+#ser = serial.Serial("/dev/ttyAMA0",9600)
+
+## initialize Image
+baseImg = Image("../images/baseImage.jpeg")
 
 ## initialize camera
 ## cam = Camera(0, {'width':320, 'height':240})
 cam = Camera()
 
-## arguments area
-imgCropCoorList = [(0,0),(320,0),(0,240),(320,240)]
-imgCropWidth, imgCropHeight = 320,240
+
 
 ## functions area
 def isOn(currentImg, baseImg, threshold):
@@ -59,22 +85,32 @@ def cropImg(img,imgCropCoorList):
 if __name__ == '__main__':
 	
 	while True:
+		## initialize gpio output to GPIO.HIGH
+		GPIO.output(gpioList, GPIO.HIGH)
+		#time.sleep(1)
 		currentImg = cam.getImage()
-		
 		imgCropList=[]
-		
+		serialList=[]
 		imgCropList = cropImg(currentImg, imgCropCoorList)
-    
-		print "=========================="
-
+    	
+    	##buttonList=[36,38,40]
+    	
+		print ("==========================")
 		for index,imgCrop in enumerate(imgCropList):
-			print "-------------------"
-
-			if isOn(imgCrop, baseImg, 0.1):
-				print ("find something in :  "+ str(index))
+			print ("-------------------")
+			
+			if isOn(imgCrop, baseImg, threshold):
+				#print("index is : "+str(index))
+				GPIO.output(gpioList[index], GPIO.LOW)
+				#print(gpioList[index])
+				print ("find something in :  "+ str(gpioList[index]))
+				#serialList.append(1)
 			else:
-				print ("nothing changed in : "+ str(index))
- 
-		time.sleep(1)
+				GPIO.output(gpioList[index], GPIO.HIGH)
+				print ("nothing changed in : "+ str(gpioList[index]))
+				#serialList.append(0)
+				#ser.write(str(serialList))
+				#print(str(serialList))
+		time.sleep(0.2)
 
 
