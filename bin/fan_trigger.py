@@ -10,12 +10,16 @@ import RPi.GPIO as GPIO
 
 ## arguments area
 
-imgCropCoorList = [(203,411),(366,408),(519,399)]
-imgCropWidth, imgCropHeight = 15,15
+imgCropCoorList = [ (200,380),(200,246),(198,126),
+					(373,375),(360,241),(356,121),
+					(520,370),(510,240),(504,116)]
+imgCropWidth, imgCropHeight = 20,20
 
-gpioList=[36,38,40]
+gpioList= [ 29,31,32,
+			33,35,36,
+			37,38,40]
 
-threshold = 0.8
+threshold = 0.95
 
 ## initialize GPIO
 
@@ -111,6 +115,6 @@ if __name__ == '__main__':
 				#serialList.append(0)
 				#ser.write(str(serialList))
 				#print(str(serialList))
-		time.sleep(0.2)
+		time.sleep(0.3)
 
 
