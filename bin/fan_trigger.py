@@ -10,16 +10,16 @@ import RPi.GPIO as GPIO
 
 ## arguments area
 
-imgCropCoorList = [ (200,380),(200,246),(198,126),
-					(373,375),(360,241),(356,121),
-					(520,370),(510,240),(504,116)]
-imgCropWidth, imgCropHeight = 20,20
+imgCropCoorList = [ (21,453),(16,240),(11,13),
+					(311,457),(312,241),(313,18),
+					(587,459),(593,242),(603,18)]
+imgCropWidth, imgCropHeight = 15,15
 
 gpioList= [ 29,31,32,
 			33,35,36,
 			37,38,40]
 
-threshold = 0.95
+threshold = 0.2
 
 ## initialize GPIO
 
@@ -39,7 +39,7 @@ GPIO.output(21, GPIO.HIGH)
 #ser = serial.Serial("/dev/ttyAMA0",9600)
 
 ## initialize Image
-baseImg = Image("../images/baseImage.jpeg")
+baseImg = Image("/home/pi/Desktop/fan_shadow/images/baseImage.jpeg")
 
 ## initialize camera
 ## cam = Camera(0, {'width':320, 'height':240})
